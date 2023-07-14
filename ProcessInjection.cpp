@@ -1,11 +1,10 @@
-// ProcessInjection.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include <Windows.h>
+#include <stdio.h>
 
-#include <iostream>
-
-int main()
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!\n";
+    printf("hello world");
+    return EXIT_SUCCESS;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
