@@ -19,6 +19,13 @@ int main(int argc, char* argv[])
         printf("PID: %i", dwPID);
     }
 
+    hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPID);
+    if (hProcess == NULL)
+    {
+        printf("Failed to open process, error: 0x%lx", GetLastError());
+        return EXIT_FAILURE;
+    }
+
     return EXIT_SUCCESS;
 }
 
